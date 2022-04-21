@@ -1,5 +1,11 @@
 # PD-Camera
 
+slapped together by: 12LetterMeme#0001
+
+join both of these beautiful places, mostly guilded... make kak happy everyone :)
+Https://www.discord.gg/qbcore
+https://www.guilded.gg/qbcore 
+
 Bla bla ensure the resouse or add to an already ensured folder so this worky
 
 For the items.lua
