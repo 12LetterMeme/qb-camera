@@ -9,6 +9,7 @@
 --| |  | |  _ <| |    / _ \| '__/ _ \
 --| |__| | |_) | |___| (_) | | |  __/
 --\___\_\____/ \_____\___/|_|  \___|-Binoculars
+
 local QBCore = exports['qb-core']:GetCoreObject()
 local active = false
 local photoyo = false
@@ -26,7 +27,7 @@ local function SharedRequestAnimDict(animDict, cb)
 	if not HasAnimDictLoaded(animDict) then
 		RequestAnimDict(animDict)
 		while not HasAnimDictLoaded(animDict) do
-			Citizen.Wait(1)
+			Citizen.Wait(10)
 		end
 	end
 	if cb ~= nil then
@@ -44,6 +45,11 @@ end
 local function CLOSETHATHING()
     active = false
     takethapicbro = false
+    SharedRequestAnimDict("amb@world_human_paparazzi@male@exit", function()
+        TaskPlayAnim(ped, "amb@world_human_paparazzi@male@exit", "exit", 2.0, 2.0, -1, 1, 0, false, false, false)
+    end)
+    Wait(1000)
+    ClearPedTasks(PlayerPedId())
     if dslrmodel then DeleteEntity(dslrmodel) end
     ClearPedTasks(PlayerPedId())
 end
@@ -151,32 +157,18 @@ RegisterNetEvent("TLM:USECAMBRO", function()
                         elseif IsControlJustPressed(1, 176) then
                             if not takethapicbro then
                                 takethapicbro = true
-                                QBCore.Functions.Progressbar('take_photo', 'Taking photo', Config.ShutterSpeed , false, false, {
-                                    disableMovement = true,
-                                    disableCarMovement = true,
-                                    disableMouse = true,
-                                    disableCombat = true,
-                                }, {
-                                    animDict = 'amb@world_human_paparazzi@male@exit',
-                                    anim = 'exit',
-                                    flags = 16,
-                                }, {}, {}, function()
-                                    QBCore.Functions.TriggerCallback("TLM:WEBHOOKYO", function(hook)
-                                        if hook then
-                                            exports['screenshot-basic']:requestScreenshotUpload(tostring(hook), "files[]", function()
-                                                CLOSETHATHING()
-                                            end)
-                                            QBCore.Functions.Notify('Phototaken', 'success', 900)
-                                            Wait(1350)
-                                            QBCore.Functions.Notify('Uploading to the Cloud', 'success', 1100)
-                                            Wait(1850)
-                                            QBCore.Functions.Notify('Photo uploaded!', 'success', 1400)
-                                        else
-                                            QBCore.Functions.Notify('Contact Server Dev\'s about webhook', 'error', 7500)
-                                        end
+                                if hook then
+                                    exports['screenshot-basic']:requestScreenshotUpload(tostring(hook), "files[]", function()
+                                        CLOSETHATHING()
                                     end)
-                                end, function()
-                                end)
+                                    QBCore.Functions.Notify('Phototaken', 'success', 900)
+                                    Wait(1350)
+                                    QBCore.Functions.Notify('Uploading to the Cloud', 'success', 1100)
+                                    Wait(1850)
+                                    QBCore.Functions.Notify('Photo uploaded!', 'success', 1400)
+                                else
+                                    QBCore.Functions.Notify('Contact Server Dev\'s about webhook', 'error', 7500)
+                                end
                             end
                         end
                         local zoomvalue = (1.0/(fov_max-fov_min))*(fov-fov_min)
