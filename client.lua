@@ -157,18 +157,19 @@ RegisterNetEvent("TLM:USECAMBRO", function()
                         elseif IsControlJustPressed(1, 176) then
                             if not takethapicbro then
                                 takethapicbro = true
-                                if hook then
-                                    exports['screenshot-basic']:requestScreenshotUpload(tostring(hook), "files[]", function()
-                                        CLOSETHATHING()
-                                    end)
-                                    QBCore.Functions.Notify('Phototaken', 'success', 900)
-                                    Wait(1350)
-                                    QBCore.Functions.Notify('Uploading to the Cloud', 'success', 1100)
-                                    Wait(1850)
-                                    QBCore.Functions.Notify('Photo uploaded!', 'success', 1400)
-                                else
-                                    QBCore.Functions.Notify('Contact Server Dev\'s about webhook', 'error', 7500)
-                                end
+                                QBCore.Functions.TriggerCallback("TLM:WEBHOOKYO", function(hook)
+                                    if hook then
+                                        exports['screenshot-basic']:requestScreenshotUpload(tostring(hook), "files[]", function()
+                                            
+                                            CLOSETHATHING()
+                                        end)
+                                        QBCore.Functions.Notify('Phototaken', 'success', 900)
+                                        Wait(1350)
+                                        QBCore.Functions.Notify('Uploading to the Cloud', 'success', 1100)
+                                        Wait(1850)
+                                        QBCore.Functions.Notify('Photo uploaded!', 'success', 1400)
+                                    end
+                                end)
                             end
                         end
                         local zoomvalue = (1.0/(fov_max-fov_min))*(fov-fov_min)
