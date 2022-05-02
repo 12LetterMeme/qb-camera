@@ -2,9 +2,7 @@
 
 slapped together by: 12LetterMeme#0001
 
-join both of these beautiful places, mostly guilded... make kak happy everyone :)
-Https://www.discord.gg/qbcore
-https://www.guilded.gg/qbcore 
+This is just an altered version of qbcore's binocular script
 
 Bla bla ensure the resouse or add to an already ensured folder so this worky
 
