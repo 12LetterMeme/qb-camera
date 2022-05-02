@@ -1,15 +1,4 @@
---____   ______ _____          __   __               _______
---|_   | |__    |     |_.-----.|  |_|  |_.-----.----.|   |   |.-----.--------.-----.
--- _|  |_|    __|       |  -__||   _|   _|  -__|   _||       ||  -__|        |  -__|
---|______|______|_______|_____||____|____|_____|__|  |__|_|__||_____|__|__|__|_____|
---With credit to
---____  ____   _____
---/ __ \|  _ \ / ____|
---| |  | | |_) | |     ___  _ __ ___
---| |  | |  _ <| |    / _ \| '__/ _ \
---| |__| | |_) | |___| (_) | | |  __/
---\___\_\____/ \_____\___/|_|  \___|-Binoculars
-
+--12LetterMeme#0001
 local QBCore = exports['qb-core']:GetCoreObject()
 local active = false
 local photoyo = false
@@ -48,7 +37,7 @@ local function CLOSETHATHING()
     SharedRequestAnimDict("amb@world_human_paparazzi@male@exit", function()
         TaskPlayAnim(ped, "amb@world_human_paparazzi@male@exit", "exit", 2.0, 2.0, -1, 1, 0, false, false, false)
     end)
-    Wait(1000)
+    Wait(700)
     ClearPedTasks(PlayerPedId())
     if dslrmodel then DeleteEntity(dslrmodel) end
     ClearPedTasks(PlayerPedId())
