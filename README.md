@@ -4,6 +4,8 @@ slapped together by: 12LetterMeme#0001
 
 This is just an altered version of qbcore's binocular script
 
+Don't forget to add the webhook!!
+
 Bla bla ensure the resouse or add to an already ensured folder so this worky
 
 For the items.lua
