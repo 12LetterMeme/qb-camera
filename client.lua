@@ -12,25 +12,6 @@ local speed_ud = Config.UDspeed
 local fov = (fov_max+fov_min)*0.5
 local takethapicbro = false
 
-local function SharedRequestAnimDict(animDict, cb)
-	if not HasAnimDictLoaded(animDict) then
-		RequestAnimDict(animDict)
-		while not HasAnimDictLoaded(animDict) do
-			Citizen.Wait(10)
-		end
-	end
-	if cb ~= nil then
-		cb()
-	end
-end
-
-local function LoadPropDict(model)
-    while not HasModelLoaded(GetHashKey(model)) do
-      RequestModel(GetHashKey(model))
-      Wait(10)
-    end
-end
-
 local function CLOSETHATHING()
     active = false
     takethapicbro = false
@@ -79,13 +60,6 @@ function CheckInputRotation(cam, zoomvalue)
         SetEntityHeading(PlayerPedId(),new_z)
     end
 end
-
-RegisterNUICallback("Close", function()
-    SetNuiFocus(false, false)
-    photoyo = false
-    if photoprop then DeleteEntity(photoprop) end
-    ClearPedTasks(PlayerPedId())
-end)
 
 function MAKEITZOOM(cam)
     local lPed = PlayerPedId()
