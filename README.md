@@ -1,8 +1,10 @@
 # PD-Camera
 
-slapped together by: 12LetterMeme#0001
+Usable camera that takes picutres ingae and uploads to discord. Made for document crime scenes on my server
 
-This is just an altered version of qbcore's binocular script
+![qb-camera copy](https://user-images.githubusercontent.com/91357757/167040019-92e7fb4c-e3bd-4816-bb2c-a0bdb6135a27.png)
+
+slapped together by: 12LetterMeme#0001
 
 Don't forget to add the webhook!!
 
