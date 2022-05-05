@@ -1,4 +1,4 @@
-# PD-Camera
+# QB-Camera
 
 Usable camera that takes picutres ingae and uploads to discord. Made for document crime scenes on my server
 
