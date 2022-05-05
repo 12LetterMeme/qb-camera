@@ -34,6 +34,11 @@ end
 local function CLOSETHATHING()
     active = false
     takethapicbro = false
+    if not HasModelLoaded("prop_pap_camera_01") then
+        LoadPropDict("prop_pap_camera_01")
+    end
+    dslrmodel = CreateObject(GetHashKey("prop_pap_camera_01"), x, y, z+0.2,  true,  true, true)
+    AttachEntityToEntity(dslrmodel, ped, GetPedBoneIndex(ped, 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
     SharedRequestAnimDict("amb@world_human_paparazzi@male@exit", function()
         TaskPlayAnim(ped, "amb@world_human_paparazzi@male@exit", "exit", 2.0, 2.0, -1, 1, 0, false, false, false)
     end)
