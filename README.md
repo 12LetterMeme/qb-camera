@@ -1,6 +1,6 @@
 # QB-Camera
 
-Usable camera that takes picutres ingame and uploads to discord. Made for documenting crime scenes on my server
+A simple camera script made for qbcore. Creates a usable camera that takes picutres ingame and uploads to discord. Made for the police on my server to document crime scenes and conduct investigations
 
 ![qb-camera copy](https://user-images.githubusercontent.com/91357757/167040019-92e7fb4c-e3bd-4816-bb2c-a0bdb6135a27.png)
 
@@ -17,3 +17,5 @@ For the items.lua
 ```
 
 Toss the image in your inventorys image section (if you dont already have a camera in there for some reason)
+
+qbcore camera script
