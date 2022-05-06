@@ -1,6 +1,6 @@
 # QB-Camera
 
-Usable camera that takes picutres ingame and uploads to discord. Made for document crime scenes on my server
+Usable camera that takes picutres ingame and uploads to discord. Made for documenting crime scenes on my server
 
 ![qb-camera copy](https://user-images.githubusercontent.com/91357757/167040019-92e7fb4c-e3bd-4816-bb2c-a0bdb6135a27.png)
 
