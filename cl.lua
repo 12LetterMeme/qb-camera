@@ -15,15 +15,6 @@ local takethapicbro = false
 local function CLOSETHATHING()
     active = false
     takethapicbro = false
-    if not HasModelLoaded("prop_pap_camera_01") then
-        LoadPropDict("prop_pap_camera_01")
-    end
-    dslrmodel = CreateObject(GetHashKey("prop_pap_camera_01"), x, y, z+0.2,  true,  true, true)
-    AttachEntityToEntity(dslrmodel, ped, GetPedBoneIndex(ped, 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
-    SharedRequestAnimDict("amb@world_human_paparazzi@male@exit", function()
-        TaskPlayAnim(ped, "amb@world_human_paparazzi@male@exit", "exit", 2.0, 2.0, -1, 1, 0, false, false, false)
-    end)
-    Wait(700)
     ClearPedTasks(PlayerPedId())
     if dslrmodel then DeleteEntity(dslrmodel) end
     ClearPedTasks(PlayerPedId())
@@ -58,6 +49,25 @@ function CheckInputRotation(cam, zoomvalue)
         new_x = math.max(math.min(20.0, rotation.x + rightAxisY*-1.0*(speed_lr)*(zoomvalue+0.1)), -89.5)
         SetCamRot(cam, new_x, 0.0, new_z, 2)
         SetEntityHeading(PlayerPedId(),new_z)
+    end
+end
+
+local function SharedRequestAnimDict(animDict, cb)
+	if not HasAnimDictLoaded(animDict) then
+		RequestAnimDict(animDict)
+		while not HasAnimDictLoaded(animDict) do
+			Citizen.Wait(10)
+		end
+	end
+	if cb ~= nil then
+		cb()
+	end
+end
+
+local function LoadPropDict(model)
+    while not HasModelLoaded(GetHashKey(model)) do
+        RequestModel(GetHashKey(model))
+        Wait(10)
     end
 end
 
@@ -128,7 +138,9 @@ RegisterNetEvent("TLM:USECAMBRO", function()
                                 QBCore.Functions.TriggerCallback("TLM:WEBHOOKYO", function(hook)
                                     if hook then
                                         exports['screenshot-basic']:requestScreenshotUpload(tostring(hook), "files[]", function()
-                                            
+                                            SharedRequestAnimDict("amb@world_human_paparazzi@male@base", function()
+                                                TaskPlayAnim(ped, "amb@world_human_paparazzi@male@base", "exit", 2.0, 2.0, -1, 1, 0, false, false, false)
+                                            end)
                                             CLOSETHATHING()
                                         end)
                                         QBCore.Functions.Notify('Phototaken', 'success', 900)
@@ -136,8 +148,8 @@ RegisterNetEvent("TLM:USECAMBRO", function()
                                         QBCore.Functions.Notify('Uploading to the Cloud', 'success', 1100)
                                         Wait(1850)
                                         QBCore.Functions.Notify('Photo uploaded!', 'success', 1400)
-				    else
-					QBCore.Functions.Notify('Contact Server Dev\'s about webhook', 'error', 7500)
+                                    else
+                                        QBCore.Functions.Notify('Contact Server Dev\'s about webhook', 'error', 7500)
                                     end
                                 end)
                             end
