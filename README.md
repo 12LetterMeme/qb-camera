@@ -9,9 +9,9 @@ slapped together by: 12LetterMeme#0001
 
 # Read Me
 
-Add this into your resource folder and ensure qb-camera
+Add this into your resource folder and remember to ensure qb-camera in your CFG
 ```
-Don't forget to add the webhook!!
+Don't forget to add the webhook! It's kinda the whole point of the script
 ```
 ```
 Toss the image in your inventorys image section (if you dont already have a camera in there for some reason)
