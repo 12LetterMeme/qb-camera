@@ -6,16 +6,21 @@ A simple camera script made for qbcore. Creates a usable camera that takes picut
 
 slapped together by: 12LetterMeme#0001
 
+```
 Don't forget to add the webhook!!
+```
 
 Bla bla ensure the resouse or add to an already ensured folder so this worky
 
-For the items.lua
+qbcore camera script/qb-core camera script/FiveM camera script
+
+# Read Me
+```
+Toss the image in your inventorys image section (if you dont already have a camera in there for some reason)
+```
+
+Add this into your items.lua
 
 ```
 ["dslrcamera"]= { ["name"] = "dslrcamera", ["label"] = "PD Camera", ["weight"] = 1000, ["type"] = "item", ["image"] = "dslrcamera.png", ["unique"] = true, ["useable"] = true, ["shouldClose"] = true, ["combinable"] = nil, ["description"] = "DSLR Camera, with cloud uplink.. cool right?"},
 ```
-
-Toss the image in your inventorys image section (if you dont already have a camera in there for some reason)
-
-qbcore camera script
