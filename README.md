@@ -9,13 +9,13 @@ slapped together by: 12LetterMeme#0001
 
 # Read Me
 
-Add this into your resource folder and remember to ensure qb-camera in your CFG
+Add this into your resource folder and remember to ensure "qb-camera" in your server's CFG
 
-Don't forget to add the webhook! It's kinda the whole point of the script
+Don't forget to add the webhook! It's kinda the whole point of the script, and will allow the people using the script to fully benefit from its features!
 
-Toss the image in your inventorys image section
+Add the provided image into where your inventory's picture folder is. Usually inside the HTML folder.
 
-Add this into your items.lua
+Add this into your items.lua to create the usable item.
 ```
 ["dslrcamera"]= { ["name"] = "dslrcamera", ["label"] = "PD Camera", ["weight"] = 1000, ["type"] = "item", ["image"] = "dslrcamera.png", ["unique"] = true, ["useable"] = true, ["shouldClose"] = true, ["combinable"] = nil, ["description"] = "DSLR Camera, with cloud uplink.. cool right?"},
 ```
