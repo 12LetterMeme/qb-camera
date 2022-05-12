@@ -19,4 +19,4 @@ Add this into your items.lua
 ```
 ["dslrcamera"]= { ["name"] = "dslrcamera", ["label"] = "PD Camera", ["weight"] = 1000, ["type"] = "item", ["image"] = "dslrcamera.png", ["unique"] = true, ["useable"] = true, ["shouldClose"] = true, ["combinable"] = nil, ["description"] = "DSLR Camera, with cloud uplink.. cool right?"},
 ```
-qbcore camera script/qb-core camera script/FiveM camera script
+qbcore camera script/qb-core camera script/FiveM camera script/police camera script/qbcore police camera
