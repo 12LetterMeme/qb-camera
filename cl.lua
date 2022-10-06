@@ -2,6 +2,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local active = false
 local photoyo = false
 local dslrmodel = nil
+local frontCam = false
 local fov_max = Config.MaxFOV
 local fov_min = Config.MinFOV
 local zoomspeed = Config.ZoomSpeed
@@ -109,10 +110,15 @@ function MAKEITZOOM(cam)
     end
 end
 
-RegisterNetEvent('tlm:client:vehiclecheck', function()
+RegisterNetEvent('tlm:client:PedChecks', function()
     local PlyPed = PlayerPedId()
     if not IsPedInAnyVehicle(PlyPed) then
-        TriggerClientEvent('tlm:client:takepicture')
+        local PlayerData = QBCore.Functions.GetPlayerData()
+        if not PlayerData.metadata["isdead"] and not PlayerData.metadata["inlaststand"] and not PlayerData.metadata["ishandcuffed"] and not IsPauseMenuActive() then
+            TriggerEvent('tlm:client:takepicture')
+        else
+            QBCore.Functions.Notify('You can\'t do this action', 'error', 7500)
+        end
     else
         QBCore.Functions.Notify('Cant use this camera in a vehicle', 'error', 7500)
     end
@@ -134,8 +140,9 @@ RegisterNetEvent("tlm:client:takepicture", function()
         CreateThread(function()
             while active do
                 Wait(200)
+                local lPed = PlayerPedId()
                 if active then
-                     active = true
+                    active = true
                     Wait(500)
                     SetTimecycleModifier("default")
                     SetTimecycleModifierStrength(0.3)
@@ -144,7 +151,7 @@ RegisterNetEvent("tlm:client:takepicture", function()
                     SetCamRot(cam, 0.0,0.0,GetEntityHeading(lPed))
                     SetCamFov(cam, fov)
                     RenderScriptCams(true, false, 0, 1, 0)
-                    while active and not IsEntityDead(lPed) and true do
+                    while active and true do
                         if IsControlJustPressed(0, 177) then
                             PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
                             CLOSETHATHING()
@@ -154,7 +161,7 @@ RegisterNetEvent("tlm:client:takepicture", function()
                                 QBCore.Functions.TriggerCallback("tlm:server:WebHookCheck", function(hook)
                                     if hook then
                                         exports['screenshot-basic']:requestScreenshotUpload(tostring(hook), "files[]", function()
-                                             CLOSETHATHING()
+                                            CLOSETHATHING()
                                         end)
                                         QBCore.Functions.Notify('Phototaken', 'success', 900)
                                         Wait(1350)
@@ -162,7 +169,7 @@ RegisterNetEvent("tlm:client:takepicture", function()
                                         Wait(1850)
                                         QBCore.Functions.Notify('Photo uploaded!', 'success', 1400)
                                     else
-                                         QBCore.Functions.Notify('Contact Server Dev\'s about webhook', 'error', 7500)
+                                        QBCore.Functions.Notify('Contact Server Dev\'s about webhook', 'error', 7500)
                                     end
                                 end)
                             end
