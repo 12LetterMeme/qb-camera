@@ -1,9 +1,7 @@
---12LetterMeme#0001
 local QBCore = exports['qb-core']:GetCoreObject()
 local active = false
 local photoyo = false
 local dslrmodel = nil
-local frontCam = false
 local fov_max = Config.MaxFOV
 local fov_min = Config.MinFOV
 local zoomspeed = Config.ZoomSpeed
@@ -12,9 +10,32 @@ local speed_ud = Config.UDspeed
 local fov = (fov_max+fov_min)*0.5
 local takethapicbro = false
 
+local function SharedRequestAnimDict(animDict, cb)
+	if not HasAnimDictLoaded(animDict) then
+		RequestAnimDict(animDict)
+		while not HasAnimDictLoaded(animDict) do
+			Citizen.Wait(10)
+		end
+	end
+	if cb ~= nil then
+		cb()
+	end
+end
+
+local function LoadPropDict(model)
+    while not HasModelLoaded(GetHashKey(model)) do
+      RequestModel(GetHashKey(model))
+      Wait(10)
+    end
+end
+
 local function CLOSETHATHING()
     active = false
     takethapicbro = false
+    SharedRequestAnimDict("amb@world_human_paparazzi@male@exit", function()
+        TaskPlayAnim(ped, "amb@world_human_paparazzi@male@exit", "exit", 2.0, 2.0, -1, 1, 0, false, false, false)
+    end)
+    Wait(1000)
     ClearPedTasks(PlayerPedId())
     if dslrmodel then DeleteEntity(dslrmodel) end
     ClearPedTasks(PlayerPedId())
@@ -52,24 +73,12 @@ function CheckInputRotation(cam, zoomvalue)
     end
 end
 
-local function SharedRequestAnimDict(animDict, cb)
-	if not HasAnimDictLoaded(animDict) then
-		RequestAnimDict(animDict)
-		while not HasAnimDictLoaded(animDict) do
-			Citizen.Wait(10)
-		end
-	end
-	if cb ~= nil then
-		cb()
-	end
-end
-
-local function LoadPropDict(model)
-    while not HasModelLoaded(GetHashKey(model)) do
-        RequestModel(GetHashKey(model))
-        Wait(10)
-    end
-end
+RegisterNUICallback("Close", function()
+    SetNuiFocus(false, false)
+    photoyo = false
+    if photoprop then DeleteEntity(photoprop) end
+    ClearPedTasks(PlayerPedId())
+end)
 
 function MAKEITZOOM(cam)
     local lPed = PlayerPedId()
@@ -100,7 +109,16 @@ function MAKEITZOOM(cam)
     end
 end
 
-RegisterNetEvent("TLM:USECAMBRO", function()
+RegisterNetEvent('tlm:client:vehiclecheck', function()
+    local PlyPed = PlayerPedId()
+    if not IsPedInAnyVehicle(PlyPed) then
+        TriggerClientEvent('tlm:client:takepicture')
+    else
+        QBCore.Functions.Notify('Cant use this camera in a vehicle', 'error', 7500)
+    end
+end)
+
+RegisterNetEvent("tlm:client:takepicture", function()
     if not active then
         active = true
         local ped = PlayerPedId()
@@ -116,10 +134,8 @@ RegisterNetEvent("TLM:USECAMBRO", function()
         CreateThread(function()
             while active do
                 Wait(200)
-                local lPed = PlayerPedId()
-                local vehicle = GetVehiclePedIsIn(lPed)
                 if active then
-                    active = true
+                     active = true
                     Wait(500)
                     SetTimecycleModifier("default")
                     SetTimecycleModifierStrength(0.3)
@@ -128,20 +144,17 @@ RegisterNetEvent("TLM:USECAMBRO", function()
                     SetCamRot(cam, 0.0,0.0,GetEntityHeading(lPed))
                     SetCamFov(cam, fov)
                     RenderScriptCams(true, false, 0, 1, 0)
-                    while active and not IsEntityDead(lPed) and (GetVehiclePedIsIn(lPed) == vehicle) and true do
+                    while active and not IsEntityDead(lPed) and true do
                         if IsControlJustPressed(0, 177) then
                             PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
                             CLOSETHATHING()
                         elseif IsControlJustPressed(1, 176) then
                             if not takethapicbro then
                                 takethapicbro = true
-                                QBCore.Functions.TriggerCallback("TLM:WEBHOOKYO", function(hook)
+                                QBCore.Functions.TriggerCallback("tlm:server:WebHookCheck", function(hook)
                                     if hook then
                                         exports['screenshot-basic']:requestScreenshotUpload(tostring(hook), "files[]", function()
-                                            SharedRequestAnimDict("amb@world_human_paparazzi@male@base", function()
-                                                TaskPlayAnim(ped, "amb@world_human_paparazzi@male@base", "exit", 2.0, 2.0, -1, 1, 0, false, false, false)
-                                            end)
-                                            CLOSETHATHING()
+                                             CLOSETHATHING()
                                         end)
                                         QBCore.Functions.Notify('Phototaken', 'success', 900)
                                         Wait(1350)
@@ -149,7 +162,7 @@ RegisterNetEvent("TLM:USECAMBRO", function()
                                         Wait(1850)
                                         QBCore.Functions.Notify('Photo uploaded!', 'success', 1400)
                                     else
-                                        QBCore.Functions.Notify('Contact Server Dev\'s about webhook', 'error', 7500)
+                                         QBCore.Functions.Notify('Contact Server Dev\'s about webhook', 'error', 7500)
                                     end
                                 end)
                             end
